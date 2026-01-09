@@ -35,6 +35,9 @@ func GetAvailableDownMigrations(dir string) ([]string, error) {
 			downFiles = append(downFiles, f.Name())
 		}
 	}
-	sort.Strings(downFiles)
+	sort.Slice(downFiles, func(i, j int) bool {
+		return downFiles[i] > downFiles[j]
+	})
+
 	return downFiles, nil
 }

@@ -14,7 +14,6 @@ func Create(name string) error {
 	version := time.Now().Format("20060102150405")
 
 	data, err := os.ReadFile(".gomigrate.json")
-
 	if err != nil {
 		return fmt.Errorf("failed to locate migration directory")
 	}
@@ -25,7 +24,7 @@ func Create(name string) error {
 		return fmt.Errorf("failed to Unmarshal config file %w", err)
 	}
 
-	if err := os.MkdirAll(cfg.Dir, 0755); err != nil {
+	if err := os.MkdirAll(cfg.Dir, 0o755); err != nil {
 		return fmt.Errorf("could not create directory : %w", err)
 	}
 
@@ -33,8 +32,8 @@ func Create(name string) error {
 		suffix  string
 		content string
 	}{
-		{suffix: "up", content: "--Write your up migration here"},
-		{suffix: "down", content: "--Write your down migration here"},
+		{suffix: "up", content: ""},
+		{suffix: "down", content: ""},
 	}
 
 	for _, f := range files {
@@ -42,7 +41,7 @@ func Create(name string) error {
 
 		fullPath := filepath.Join(cfg.Dir, fileName)
 
-		err := os.WriteFile(fullPath, []byte(f.content), 0644)
+		err := os.WriteFile(fullPath, []byte(f.content), 0o644)
 		if err != nil {
 			return fmt.Errorf("could not create file %s: %w", fileName, err)
 		}
