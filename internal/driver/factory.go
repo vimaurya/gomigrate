@@ -2,18 +2,18 @@ package driver
 
 import (
 	"fmt"
-	"net/url"
+	"strings"
 )
 
 func GetDriver(connURL string) (Driver, error) {
-	u, err := url.Parse(connURL)
-	if err!=nil {
-		return nil, err
-	}
-	switch u.Scheme {
-	case "postgres", "postgresql":
+	if strings.HasPrefix(connURL, "postgres://") || strings.HasPrefix(connURL, "postgresql://") {
 		return NewPostgresDriver(connURL)
-	default:
-		return nil, fmt.Errorf("unsupported database: %s", u.Scheme)	
 	}
+
+	if strings.HasPrefix(connURL, "mysql://") {
+		dsn := strings.TrimPrefix(connURL, "mysql://")
+		return NewMySQLDriver(dsn)
+	}
+
+	return nil, fmt.Errorf("unsupported database scheme name in url : %s", connURL)
 }

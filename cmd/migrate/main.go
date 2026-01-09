@@ -13,10 +13,11 @@ import (
 )
 
 // postgres://postgres:root@localhost:5432/test_db?sslmode=disable
+// mysql://root:vikash@tcp(127.0.0.1:3306)/test_db
 func main() {
 	if len(os.Args) < 2 {
 		fmt.Println("Usage: migrate <command> [options]")
-		fmt.Println("Commands: up, create")
+		fmt.Println("Commands: init, create, up, down")
 		os.Exit(1)
 	}
 
@@ -89,10 +90,13 @@ func main() {
 			log.Fatalf("failed to down migration(s) : %v", err)
 		}
 
-		fmt.Println("successfully made down migrations")
-
 	default:
 		fmt.Printf("Unknown command: %s\n", os.Args[1])
-
+		fmt.Println("\nUsage: migrate <command> [options]")
+		fmt.Println("Commands:")
+		fmt.Println("  init   - Initialize configuration and database")
+		fmt.Println("  create - Create a new migration file")
+		fmt.Println("  up     - Apply pending migrations")
+		fmt.Println("  down   - Roll back the last migration")
 	}
 }
