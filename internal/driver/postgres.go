@@ -47,9 +47,6 @@ func (p *PostgresDriver) Close() {
 	p.db.Close()
 }
 
-// To-do
-// Implement GetAppliedMigrations and Apply
-
 func (p *PostgresDriver) GetAppliedMigrations() (map[int64]string, error) {
 	migrationRecord := make(map[int64]string)
 

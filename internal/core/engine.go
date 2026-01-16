@@ -1,7 +1,6 @@
 package core
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -14,15 +13,9 @@ import (
 )
 
 func RunUp() error {
-	data, err := os.ReadFile(".gomigrate.json")
+	cfg, err := config.Load()
 	if err != nil {
-		return fmt.Errorf("failed to read config : %w", err)
-	}
-	var cfg config.Config
-
-	err = json.Unmarshal(data, &cfg)
-	if err != nil {
-		return fmt.Errorf("failed to Unmarshal : %w", err)
+		return fmt.Errorf("failed to load config : %w", err)
 	}
 
 	d, err := driver.GetDriver(cfg.DatabaseURL)
@@ -72,15 +65,9 @@ func RunUp() error {
 }
 
 func RunDown() error {
-	data, err := os.ReadFile(".gomigrate.json")
+	cfg, err := config.Load()
 	if err != nil {
-		return fmt.Errorf("failed to read config : %w", err)
-	}
-	var cfg config.Config
-
-	err = json.Unmarshal(data, &cfg)
-	if err != nil {
-		return fmt.Errorf("failed to Unmarshal : %w", err)
+		return fmt.Errorf("failed to load config : %w", err)
 	}
 
 	d, err := driver.GetDriver(cfg.DatabaseURL)

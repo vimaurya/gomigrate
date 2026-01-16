@@ -16,7 +16,7 @@ import (
 // mysql://root:vikash@tcp(127.0.0.1:3306)/test_db
 func main() {
 	if len(os.Args) < 2 {
-		fmt.Println("Usage: migrate <command> [options]")
+		fmt.Println("Usage: drift <command> [options]")
 		fmt.Println("Commands: init, create, up, down")
 		os.Exit(1)
 	}

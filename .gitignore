@@ -2,3 +2,5 @@
 migrate
 migrate.exe
 .gomigrate.json
+/dist/
+

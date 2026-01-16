@@ -1,7 +1,6 @@
 package migration
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -13,15 +12,9 @@ import (
 func Create(name string) error {
 	version := time.Now().Format("20060102150405")
 
-	data, err := os.ReadFile(".gomigrate.json")
+	cfg, err := config.Load()
 	if err != nil {
-		return fmt.Errorf("failed to locate migration directory")
-	}
-
-	var cfg config.Config
-	err = json.Unmarshal(data, &cfg)
-	if err != nil {
-		return fmt.Errorf("failed to Unmarshal config file %w", err)
+		return fmt.Errorf("failed to load config : %w", err)
 	}
 
 	if err := os.MkdirAll(cfg.Dir, 0o755); err != nil {
