@@ -27,5 +27,5 @@ func Load() (Config, error) {
 	var config Config
 	err = json.Unmarshal(data, &config)
 
-	return Config{}, err
+	return config, err
 }
